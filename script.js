@@ -43,57 +43,82 @@ inputBusca.addEventListener('input', (event) => {
 });
 
 // --- 3. CAPTURA DE VÍDEO E FOTO (Modernizado com async/await) ---
+// --- 3. CAPTURA DE VÍDEO E FOTO (Modernizado com async/await e Troca de Câmera) ---
 const video = document.querySelector('video');
 const canvas = document.querySelector('canvas');
 const context = canvas.getContext('2d');
 const fotosContainer = document.querySelector('.fotos');
-const btnFoto = document.querySelector('#btn-foto'); // Se mudou o nome da classe, ajuste aqui
+const btnFoto = document.querySelector('#btn-foto'); 
+const btnTrocarCamera = document.querySelector('#btn-trocar-camera');
+
+let streamAtual = null; // Guarda o fluxo de vídeo atual
+let cameraModo = 'environment'; // 'environment' = Traseira | 'user' = Frontal
 
 // Iniciar Câmera
 const iniciarCamera = async () => {
-    const specs = { video: { width: 320, height: 200 } };
+    // IMPORTANTE: Para o vídeo atual antes de tentar abrir a nova câmera
+    if (streamAtual) {
+        streamAtual.getTracks().forEach(track => track.stop());
+    }
+
+    const specs = { 
+        video: { 
+            facingMode: cameraModo,
+            // Usar 'ideal' evita esticar ou distorcer a imagem no celular
+            width: { ideal: 640 }, 
+            height: { ideal: 480 } 
+        } 
+    };
     
     try {
-        const stream = await navigator.mediaDevices.getUserMedia(specs);
-        video.srcObject = stream;
+        streamAtual = await navigator.mediaDevices.getUserMedia(specs);
+        video.srcObject = streamAtual;
         video.play();
     } catch (error) {
         console.error("Erro ao acessar a câmera:", error);
-        alert("Não foi possível acessar a câmera. Verifique as permissões.");
+        // Se a traseira falhar (ex: rodando no PC que só tem webcam), tenta a frontal automaticamente
+        if (cameraModo === 'environment') {
+            cameraModo = 'user';
+            iniciarCamera();
+        } else {
+            alert("Não foi possível acessar a câmera. Verifique as permissões.");
+        }
     }
 };
+
+// Evento para trocar de câmera
+btnTrocarCamera.addEventListener('click', () => {
+    // Alterna o texto entre environment (traseira) e user (frontal)
+    cameraModo = cameraModo === 'environment' ? 'user' : 'environment';
+    iniciarCamera();
+});
 
 // Chama a função para ligar a câmera assim que o script carregar
 iniciarCamera();
 
 // Tirar Foto
 btnFoto.addEventListener('click', () => {
-    // Configura o tamanho do canvas para o tamanho do vídeo
+    btnFoto.disabled = true;
+    setTimeout(() => btnFoto.disabled = false, 1000);
+
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     
-    // Desenha o frame atual do vídeo no canvas
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-    // Converte o canvas para Blob (melhor performance que base64/toDataURL)
     canvas.toBlob((blob) => {
-        if (!blob) return; // Segurança
+        if (!blob) return; 
 
         const url = URL.createObjectURL(blob);
         const newImg = document.createElement('img');
         newImg.src = url;
         
-        // Limpa a URL da memória assim que a imagem for carregada
         newImg.onload = () => URL.revokeObjectURL(url);
-
-        // Adiciona a imagem na tela
         fotosContainer.appendChild(newImg);
 
-        // Evento para deletar a imagem
         newImg.addEventListener("click", () => {
-            newImg.classList.add("img-del"); // Adiciona borda vermelha, por exemplo
+            newImg.classList.add("img-del"); 
             
-            // Pequeno atraso (opcional) para o usuário ver a borda antes do alerta
             setTimeout(() => {
                 const querDeletar = confirm("Deseja realmente excluir a Imagem selecionada?");
                 if (querDeletar) {
@@ -103,7 +128,7 @@ btnFoto.addEventListener('click', () => {
                 }
             }, 50); 
         });
-    }, 'image/jpeg', 0.9); // Opcional: Define formato e qualidade da foto
+    }, 'image/jpeg', 0.9); 
 });
 
 
