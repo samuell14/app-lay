@@ -281,14 +281,16 @@ input[type="radio"] {
 
 .fotos {
   display: flex;
-  justify-content: space-around;
-  flex-flow: wrap;
+  justify-content: center;
+  flex-flow: wrap; 
+  gap: 20px; 
   margin-top: 20px;
 }
 
 .fotos img {
   margin-bottom: 20px;
 }
+
 .btn-ft {
   text-align: center;
   /* width: 80px;

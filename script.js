@@ -61,12 +61,12 @@ const iniciarCamera = async () => {
         streamAtual.getTracks().forEach(track => track.stop());
     }
 
+    // Voltamos ao tamanho original exato (320x200), mantendo a troca de câmera
     const specs = { 
         video: { 
             facingMode: cameraModo,
-            // Usar 'ideal' evita esticar ou distorcer a imagem no celular
-            width: { ideal: 640 }, 
-            height: { ideal: 480 } 
+            width: 320, 
+            height: 200 
         } 
     };
     
@@ -76,7 +76,7 @@ const iniciarCamera = async () => {
         video.play();
     } catch (error) {
         console.error("Erro ao acessar a câmera:", error);
-        // Se a traseira falhar (ex: rodando no PC que só tem webcam), tenta a frontal automaticamente
+        // Se a traseira falhar, tenta a frontal automaticamente
         if (cameraModo === 'environment') {
             cameraModo = 'user';
             iniciarCamera();
