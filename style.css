@@ -109,6 +109,13 @@ td, th {
     border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     padding: 0;
+    overflow-x: hidden;
+}
+
+video, canvas, .fotos img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px; /* Deixa a câmera com bordas arredondadas (opcional) */
 }
 
 .modal::backdrop {
@@ -169,12 +176,12 @@ label {
 }
 
 input[type="text"], input[type="date"], input[type="number"], input[type="email"], input[type="tel"], select, textarea {
-    padding: 10px;                /*[cite: 1] */
+    padding: 10px;                
     border: 1px solid #ccc;
     border-radius: 5px;
     font-family: inherit;
     width: 100%;
-}   
+}  
 
 .radio-group, .checkbox-group {
     display: flex;
@@ -232,24 +239,66 @@ input[type="radio"], input[type="checkbox"] {
 
 /* --- 8. Responsividade Refinada --- */
 @media (max-width: 600px) {
+    /* 1. Trava o tamanho do modal para a tela toda */
+    .modal {
+        width: 100vw;        
+        max-width: 100vw;    
+        height: 100vh;      
+        max-height: 100vh;
+        margin: 0;          
+        border-radius: 0;   
+    }
+
+    input[type="text"], input[type="date"], input[type="number"], input[type="email"], input[type="tel"], select, textarea {
+        width: 98%;
+    }
+
+    /* 2. Força o conteúdo e o formulário a respeitarem as margens e não vazarem */
+    .modal-content, .form-body {
+        width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
+    }
+    
     .modal-header {
-        flex-direction: column;
-        text-align: center;       /*[cite: 1] */
-        font-size: 20px;          /*[cite: 1] */
+        position: sticky;   
+        top: 0;
+        z-index: 10;
+        flex-direction: row; 
+        padding: 15px;
+        font-size: 18px;
     }
     
     .fechar {
-        position: absolute;
-        top: 10px;
-        right: 15px;
+        position: static;   
+    }
+    
+    /* 3. Garante margem interna e impede que encoste na tela */
+    .form-section {
+        padding: 15px; 
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* 4. A MÁGICA AQUI: Força todos os grids a ficarem 1 debaixo do outro no celular */
+    .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
+    }
+
+    /* 5. Impede que textos longos (ex: checkboxes) empurrem a tela pro lado */
+    label {
+        word-wrap: break-word;
+        white-space: normal;
+        min-width: 0;
+        width: 100%;
     }
     
     .modal-footer {
-        justify-content: center;  /*[cite: 1] */
+        justify-content: center;  
         flex-wrap: wrap;
     }
     
     .btn {
-        width: 100%;              /* Ocupa a tela toda no celular */
+        width: 100%;        
     }
 }
