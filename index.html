@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Sistema de Podologia - Clientes</title>
+</head>
+
+<body>
+    <main class="container-geral">
+        <header class="h1">
+            <img class="logo" src="img/logo.jpeg" alt="Logo da Clínica">
+        </header>
+
+        <section class="pesquisa">
+            <div class="search-box">
+                <input class="input-busca" type="search" placeholder="Buscar Cliente...">
+            </div>
+            <button class="btn btn-add" id="btnNovoCliente">Novo Cliente</button>
+        </section>
+
+        <div class="table-container">
+            <table id="tableClient">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Queixa</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody class="tabela-clientes">
+                    <!-- Conteúdo gerado via JS -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- Modal Moderno usando a tag <dialog> -->
+    <dialog class="modal" id="modalAvaliacao">
+        <div class="modal-content">
+            <header class="modal-header">
+                <h2>FICHA DE AVALIAÇÃO DE PODOLOGIA</h2>
+                <button class="fechar" id="btnFecharModal" aria-label="Fechar">&times;</button>
+            </header>
+
+            <form id="formAvaliacao" class="form-body">
+
+                <!-- Seção 1: Dados Pessoais -->
+                <fieldset class="form-section">
+                    <legend>Dados Pessoais</legend>
+                    <div class="grid-3">
+                        <label>Data: <input type="date" name="data" required></label>
+                        <label>Nome: <input type="text" id="nome" name="nome" data-index="new" required></label>
+                        <label>Data de Nasc.: <input type="date" name="data_nasc"></label>
+                        <label>Idade: <input type="number" id="peq" name="idade"></label>
+
+                        <div class="radio-group">
+                            <span>Sexo:</span>
+                            <label><input type="radio" name="sexo" value="F"> Fem</label>
+                            <label><input type="radio" name="sexo" value="M"> Masc</label>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <label>Endereço: <input type="text" id="endereco" name="endereco"></label>
+                        <label>Bairro: <input type="text" name="bairro"></label>
+                        <label>Cidade: <input type="text" name="cidade"></label>
+                        <label>Estado: <input type="text" name="estado"></label>
+                        <label>Celular: <input type="tel" id="celular" name="celular" required></label>
+                    </div>
+                </fieldset>
+
+                <!-- Seção 2: Dados Gerais -->
+                <fieldset class="form-section">
+                    <legend>Dados Gerais</legend>
+                    <div class="grid-1">
+                        <label>Queixa principal: <input type="text" id="main" name="queixa_principal" required></label>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="radio-group">
+                            <span>Costuma ir ao Podólogo?</span>
+                            <label><input type="radio" name="ir_podologo" value="SIM"> SIM</label>
+                            <label><input type="radio" name="ir_podologo" value="NÃO"> NÃO</label>
+                        </div>
+                        <label>Qual frequência? <input type="text" name="frequencia"></label>
+
+                        <div class="radio-group">
+                            <span>Alérgico?</span>
+                            <label><input type="radio" name="alergico" value="SIM"> SIM</label>
+                            <label><input type="radio" name="alergico" value="NÃO"> NÃO</label>
+                        </div>
+                        <label>Quais substâncias? <input type="text" name="substancias"></label>
+                    </div>
+                </fieldset>
+
+                <!-- Seção 3: Saúde Geral -->
+                <fieldset class="form-section">
+                    <legend>Dados Saúde Geral</legend>
+                    <div class="grid-1">
+                        <label>Possui alguma doença? Qual? <input type="text" name="doenca"></label>
+                    </div>
+                    <div class="checkbox-group grid-3">
+                        <label><input type="checkbox" name="quimio" value="SIM"> Quimioterapia / Radioterapia</label>
+                        <label><input type="checkbox" name="antecedentes" value="SIM"> Antecedentes Oncológicos</label>
+                        <label><input type="checkbox" name="cirurgia" value="SIM"> Cirurgia MMII</label>
+                    </div>
+                    <hr class="divider">
+                    <div class="grid-2">
+                        <div class="radio-group">
+                            <span>Diabetes:</span>
+                            <label><input type="radio" name="diabetes" value="SIM"> SIM</label>
+                            <label><input type="radio" name="diabetes" value="NÃO"> NÃO</label>
+                        </div>
+                        <label>Taxa glicêmica: <input type="text" name="taxa_glicemica"></label>
+                    </div>
+                </fieldset>
+
+                <!-- Seção 4: Alterações e Testes (Exemplo de Simplificação) -->
+                <fieldset class="form-section">
+                    <legend>Testes Podológicos</legend>
+                    <div class="grid-2">
+                        <div class="radio-group card-teste">
+                            <strong>Perfusão (Pé Direito):</strong>
+                            <label><input type="radio" name="perfusao-dir" value="normal"> Normal</label>
+                            <label><input type="radio" name="perfusao-dir" value="palido"> Pálido</label>
+                            <label><input type="radio" name="perfusao-dir" value="cianotico"> Cianótico</label>
+                            <label><input type="radio" name="perfusao-dir" value="rubro"> Rubro</label>
+                        </div>
+                        <div class="radio-group card-teste">
+                            <strong>Perfusão (Pé Esquerdo):</strong>
+                            <label><input type="radio" name="perfusao-esq" value="normal"> Normal</label>
+                            <label><input type="radio" name="perfusao-esq" value="palido"> Pálido</label>
+                            <label><input type="radio" name="perfusao-esq" value="cianotico"> Cianótico</label>
+                            <label><input type="radio" name="perfusao-esq" value="rubro"> Rubro</label>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Seção 5: Imagens -->
+                <fieldset class="form-section">
+                    <legend>Imagens do Tratamento</legend>
+                    <div class="midia-container">
+                        <video autoplay></video>
+                        <canvas></canvas>
+                    </div>
+                    <div class="btn-container">
+                        <button type="button" class="btn btn-primary" id="btn-foto">Tirar Foto</button>
+                    </div>
+                    <div class="fotos"></div>
+                </fieldset>
+
+                <!-- Rodapé do Modal -->
+                <footer class="modal-footer">
+                    <button type="submit" class="btn btn-add">Cadastrar</button>
+                    <button type="button" class="btn btn-delete" id="btnCancelar">Cancelar</button>
+                </footer>
+            </form>
+        </div>
+    </dialog>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+    <script src="script.js"></script>
+    <script src="cadastro.js"></script>
+</body>
+
+</html>

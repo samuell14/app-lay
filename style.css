@@ -1,0 +1,255 @@
+/* --- 1. Variáveis e Reset Moderno --- */
+:root {
+    --primary-green: #8bdf3f;     /*[cite: 1] Cor de destaque da marca */
+    --dark-green: #2e4f12;        /*[cite: 1] Bordas e cabeçalhos escuros */
+    --bg-light: #f4f7f6;          
+    --text-dark: #333;
+    --white: #ffffff;
+    --danger: #f85353;            /*[cite: 1, 3] Cor do botão cancelar/deletar */
+    --success: #78e778;           /*[cite: 1, 3] Cor do botão cadastrar/adicionar */
+    --warning: #f5f56e;           /*[cite: 3] Cor do botão editar */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;       /*[cite: 1, 3] */
+}
+
+body {
+    /* Fonte mais moderna, substituindo a Times New Roman[cite: 1] */
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; 
+    font-size: 16px;              /*[cite: 1] Ajustado para melhor leitura */
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+}
+
+/* --- 2. Layout Principal --- */
+.container-geral {
+    max-width: 90%;               /*[cite: 3] Ajustado de 80% para melhor uso da tela */
+    margin: 2rem auto;            /*[cite: 1, 3] */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.h1 {
+    display: flex;
+    justify-content: center;      /*[cite: 3] */
+}
+
+.logo {
+    max-width: 300px;             /*[cite: 3] */
+    height: auto;
+}
+
+/* --- 3. Barra de Pesquisa e Tabela --- */
+.pesquisa {
+    display: flex;
+    justify-content: space-between; /*[cite: 3] */
+    align-items: center;            /*[cite: 3] */
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.input-busca {
+    padding: 10px 15px;           /*[cite: 3] */
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+    min-width: 250px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;             /*[cite: 3] */
+    background: var(--white);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+thead {
+    background-color: var(--dark-green); /* Mudança sutil: alinhando tabela com a marca */
+    color: var(--white);          /*[cite: 3] */
+}
+
+td, th {
+    padding: 12px 15px;           /*[cite: 3] */
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+/* --- 4. Botões Padronizados --- */
+.btn {
+    cursor: pointer;              /*[cite: 3] */
+    padding: 10px 20px;           /*[cite: 1, 3] */
+    border: none;                 /*[cite: 3] Removido border sólida genérica */
+    border-radius: 6px;           /*[cite: 1] */
+    font-weight: bold;
+    transition: filter 0.2s;
+}
+
+.btn:hover {
+    filter: brightness(0.9);
+}
+
+.btn-add { background-color: var(--success); color: #000; } /*[cite: 3] */
+.btn-edit { background-color: var(--warning); color: #000; } /*[cite: 3] */
+.btn-delete { background-color: var(--danger); color: var(--white); } /*[cite: 3] */
+.btn-primary { background-color: var(--primary-green); color: #000; } /*[cite: 1] */
+
+/* --- 5. Modal Moderno (<dialog>) --- */
+.modal {
+    width: 90%;                   /*[cite: 3] Ajustado de 1000px/80% para melhor responsividade */
+    max-width: 1200px;            /*[cite: 1, 3] */
+    margin: auto;                 /* A tag dialog centraliza automaticamente com isso */
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    padding: 0;
+}
+
+.modal::backdrop {
+    background: rgba(0, 0, 0, 0.6); /* Fundo escuro atrás do modal */
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between; /*[cite: 1] */
+    align-items: center;
+    background-color: var(--primary-green); /*[cite: 1] */
+    padding: 15px 30px;           /*[cite: 1] */
+    font-size: 24px;              /*[cite: 1] */
+    font-weight: bold;
+}
+
+.fechar {
+    color: var(--danger);         /*[cite: 1] */
+    background: none;
+    border: none;
+    font-size: 30px;              /*[cite: 1] */
+    cursor: pointer;              /*[cite: 1] */
+}
+
+.form-body {
+    padding: 20px;
+    background: var(--white);     /*[cite: 1] */
+}
+
+/* --- 6. Formulários e Grid Responsivo --- */
+.form-section {
+    border: 2px solid var(--dark-green); /*[cite: 1] Substitui os conteiner-dp */
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+    background-color: var(--white);
+}
+
+.form-section legend {
+    background-color: var(--dark-green); /*[cite: 1] Substitui a div.title */
+    color: var(--white);
+    padding: 8px 20px;
+    border-radius: 4px;
+    font-size: 18px;              /*[cite: 1] */
+    font-weight: bold;
+}
+
+/* Grids automáticos: Substituem a necessidade de dezenas de media queries e classes coluns/box[cite: 1] */
+.grid-1 { display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 15px; }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 15px; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px; }
+
+label {
+    display: flex;
+    flex-direction: column;
+    font-weight: 500;
+    gap: 5px;
+}
+
+input[type="text"], input[type="date"], input[type="number"], input[type="email"], input[type="tel"], select, textarea {
+    padding: 10px;                /*[cite: 1] */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: inherit;
+    width: 100%;
+}   
+
+.radio-group, .checkbox-group {
+    display: flex;
+    flex-wrap: wrap;              /*[cite: 1] */
+    align-items: center;
+    gap: 15px;
+}
+
+.radio-group label, .checkbox-group label {
+    flex-direction: row;
+    align-items: center;
+    font-weight: normal;
+}
+
+input[type="radio"], input[type="checkbox"] {
+    margin-right: 5px;            /*[cite: 1] */
+    transform: scale(1.2);
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 15px 0;
+}
+
+.card-teste {
+    background: #fafafa;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+/* --- 7. Mídia e Rodapé --- */
+.midia-container {
+    display: flex;
+    justify-content: center;      /*[cite: 1] */
+    gap: 20px;
+    flex-wrap: wrap;              /*[cite: 1] */
+    margin-bottom: 20px;          /*[cite: 1] */
+}
+
+.btn-container {
+    text-align: center;           /*[cite: 1] */
+    margin-bottom: 20px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;    /*[cite: 1] */
+    gap: 15px;
+    margin-top: 20px;             /*[cite: 1] */
+    padding-top: 20px;
+    border-top: 2px solid #eee;
+}
+
+/* --- 8. Responsividade Refinada --- */
+@media (max-width: 600px) {
+    .modal-header {
+        flex-direction: column;
+        text-align: center;       /*[cite: 1] */
+        font-size: 20px;          /*[cite: 1] */
+    }
+    
+    .fechar {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+    }
+    
+    .modal-footer {
+        justify-content: center;  /*[cite: 1] */
+        flex-wrap: wrap;
+    }
+    
+    .btn {
+        width: 100%;              /* Ocupa a tela toda no celular */
+    }
+}
